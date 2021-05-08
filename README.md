@@ -44,7 +44,16 @@ cd amdgpu-pro-opencl
 rpmbuild -ba amdgpu-pro-opencl.spec
 sudo dnf -y --nogpgcheck install ~/rpmbuild/RPMS/x86_64/amdgpu-pro-opencl-*.x86_64.rpm
 ```
+Notes: 
+- You will need to reboot your system for the OpenCL libraries to work
+- You will need to configure DaVinci Resolve's GPU preference to use the 'Pro' GPU listing.
 
+Notes if importing video from OBS Studio into DaVinci Resolve:
+- DaVinci Resolve 17 only supports h264/h265 importing and playback in the Studio version.
+- DaVinci Resolve 17 does not support AAC audio. Your audio codec needs to be something like pcm_s24le
+
+While the above DaVinci Resolve related notes are not amdgpu-pro related, I have stated them here
+in case people are confused why their imports from OBS don't play or display.
 
 Usage
 -----
