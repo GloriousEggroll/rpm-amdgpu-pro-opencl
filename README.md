@@ -10,9 +10,7 @@ is recommended.
 
 The OpenCL libraries from this package includes both the PAL and 
 the ORCA (Legacy) driver, hopefully supporting all AMD GPU hardware
-that is supported by the driver (up to Navi14 / AMD Radeon 5600 XT), 
-though it is only regularly tested by the package maintainer on Navi10 /
-AMD Radeon 5700 XT.
+that is supported by the driver.
 
 The OpenGL libraries from this package are also imported from the 
 amdgpu-pro packages and used in the amdgporun script as an override,
