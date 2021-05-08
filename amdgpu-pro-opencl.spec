@@ -68,18 +68,33 @@ ar x opencl-rocr-amdgpu-pro-dev_%{major}-%{minor}_amd64.deb
 tar -xJC files -f data.tar.xz
 ar x opencl-orca-amdgpu-pro-icd_%{major}-%{minor}_amd64.deb
 tar -xJC files -f data.tar.xz
-# I'm not sure if it needs appprofiles, but strace shows that /etc/amd/amdapfxx.blb is referenced.
-ar x libgl1-amdgpu-pro-appprofiles_%{major}-%{minor}_all.deb
-tar -xJC files -f data.tar.xz
 ar x libdrm-amdgpu-amdgpu1_%{amdver}-%{minor}_amd64.deb
 tar -xJC files -f data.tar.xz
 # Since 20.10 we need AMD's libdrm for "drmSyncobjQuery2" symbol
 ar x libdrm2-amdgpu_%{amdver}-%{minor}_amd64.deb
 tar -xJC files -f data.tar.xz
+# OpenGL
+ar x libegl1-amdgpu-pro_%{major}-%{minor}_amd64.deb
+tar -xJC files -f data.tar.xz
+ar x libgl1-amdgpu-pro-appprofiles_%{major}-%{minor}_all.deb
+tar -xJC files -f data.tar.xz
+ar x libgl1-amdgpu-pro-dri_%{major}-%{minor}_amd64.deb
+tar -xJC files -f data.tar.xz
+ar x libgl1-amdgpu-pro-ext_%{major}-%{minor}_amd64.deb
+tar -xJC files -f data.tar.xz
+ar x libgl1-amdgpu-pro-glx_%{major}-%{minor}_amd64.deb
+tar -xJC files -f data.tar.xz
+ar x libglapi1-amdgpu-pro_%{major}-%{minor}_amd64.deb
+tar -xJC files -f data.tar.xz
+ar x libgles2-amdgpu-pro_%{major}-%{minor}_amd64.deb
+tar -xJC files -f data.tar.xz
+
 
 %build
 echo '#!/bin/bash' > amdgporun
-echo 'export LD_LIBRARY_PATH=/usr/lib64/amdgpu-pro-opencl' >> amdgporun
+echo 'export LD_LIBRARY_PATH="/usr/lib64/amdgpu-pro-opencl:${LD_LIBRARY_PATH}"' >> amdgporun
+echo 'export LIBGL_DRIVERS_PATH="/usr/lib64/amdgpu-pro-opencl/dri"' >> amdgporun
+echo 'export dri_driver="amdgpu"' >> amdgporun
 echo 'exec "$@"' >> amdgporun
 
 pushd files/opt/amdgpu-pro/lib/x86_64-linux-gnu/
@@ -100,13 +115,14 @@ rm libkms.so.{1,1.0.0} # We probably don't need that right now
 popd
 
 %install
-mkdir -p %{buildroot}%{_libdir}/amdgpu-pro-opencl/
+mkdir -p %{buildroot}%{_libdir}/amdgpu-pro-opencl/dri/
 mkdir -p %{buildroot}%{_sysconfdir}/amd/
 mkdir -p %{buildroot}%{_sysconfdir}/OpenCL/vendors/
 mkdir -p %{buildroot}%{_docdir}/amdgpu-pro-opencl/
 mkdir -p %{buildroot}%{_bindir}/
 
 install -p -m755 files/opt/amdgpu-pro/lib/x86_64-linux-gnu/* %{buildroot}%{_libdir}/amdgpu-pro-opencl/
+install -p -m755 files/usr/lib/x86_64-linux-gnu/dri/* %{buildroot}%{_libdir}/amdgpu-pro-opencl/dri/
 install -p -m755 files/opt/amdgpu/lib/x86_64-linux-gnu/* %{buildroot}%{_libdir}/amdgpu-pro-opencl/
 install -p -m644 files/etc/amd/amdapfxx.blb %{buildroot}%{_sysconfdir}/amd/
 install -p -m644 files/etc/OpenCL/vendors/* %{buildroot}%{_sysconfdir}/OpenCL/vendors/
