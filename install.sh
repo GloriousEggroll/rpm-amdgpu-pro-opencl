@@ -9,5 +9,5 @@ fi
 cd ~/rpmbuild/SPECS
 git clone https://github.com/GloriousEggroll/rpm-amdgpu-pro-opencl amdgpu-pro-opencl
 cd amdgpu-pro-opencl
-rpmbuild -ba amdgpu-pro-opencl.spec
+rpmbuild -bb amdgpu-pro-opencl.spec
 sudo dnf -y --nogpgcheck install ~/rpmbuild/RPMS/x86_64/amdgpu-pro-opencl-*.x86_64.rpm
