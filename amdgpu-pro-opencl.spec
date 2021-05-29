@@ -37,9 +37,13 @@ URL:            https://www.amd.com/en/support/kb/release-notes/rn-amdgpu-unifie
 Source0:        https://drivers.amd.com/drivers/linux/amdgpu-pro-%{major}-%{minor}-%{distro}.tar.xz
 
 ExclusiveArch:  x86_64
-#BuildRequires:  
+#BuildRequires:
+%if 0%{?suse_version}
+Requires:       libdrm2
+%else
 Requires:       ocl-icd
-Requires:	libdrm
+Requires:       libdrm
+%endif
 
 %description
 OpenCL userspace driver as provided in the amdgpu-pro driver stack. This package
@@ -143,6 +147,12 @@ ln -s libdro.so.2.4.0        %{buildroot}%{_libdir}/amdgpu-pro-opencl/libdro.so.
 
 
 %changelog
+* Sat May 29 2021 Castor Sky - SUSE stuff
+- Added SUSE libdrm-related check
+
+* Sat May 8 2021 GloriousEggroll - 21.10-1247438
+- Update to 21.10
+
 * Sat Feb 20 2021 optimize-fast - 20.45.1188099-1
 - Update to 20.45
 
