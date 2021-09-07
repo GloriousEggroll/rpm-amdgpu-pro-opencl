@@ -17,12 +17,12 @@
 # Therefore it's illegal to distribute the .src.rpm or .rpm files to third
 # parties.
 
-%global major 21.10
-%global minor 1247438
+%global major 21.30
+%global minor 1290604
 %global distro ubuntu-20.04
 
 # Version of downstream libdrm-amdgpu package
-%global amdver 2.4.100
+%global amdver 2.4.106
 
 # RPM flags
 %global debug_package %{nil}
@@ -61,7 +61,7 @@ tar -xJC files -f data.tar.xz
 ar x hip-rocr-amdgpu-pro_%{major}-%{minor}_amd64.deb
 tar -xJC files -f data.tar.xz
 #comgr
-ar x comgr-amdgpu-pro_2.0.0-%{minor}_amd64.deb
+ar x comgr-amdgpu-pro_2.1.0-%{minor}_amd64.deb
 tar -xJC files -f data.tar.xz
 # This one is probably unneeded for most users, but you never know.
 ar x opencl-rocr-amdgpu-pro-dev_%{major}-%{minor}_amd64.deb
